@@ -8,6 +8,9 @@ const config = require('./config/index')
 const untils = require('./untils/index')
 const superagent = require('./superagent/index')
 const {FileBox} = require('file-box') //文件读取模块
+const http=require("http");
+var qs = require('querystring');
+// sayGroup()
 //  二维码生成
 function onScan (qrcode, status) {
   require('qrcode-terminal').generate(qrcode)  // 在console端显示二维码
@@ -22,10 +25,11 @@ function onScan (qrcode, status) {
 async function onLogin (user) {
   console.log(`贴心小助理${user}登录了`)
   // 登陆后创建定时任务
-  schedule.setSchedule(config.SENDDATE,()=>{
-	console.log('你的贴心小助理开始工作啦！')
-    main()
-  })
+  // schedule.setSchedule(config.SENDDATE,()=>{
+	// console.log('你的贴心小助理开始工作啦！')
+  //   main()
+	// })
+	sayFn()
 }
 
 //登出
@@ -124,6 +128,90 @@ async function main() {
   console.log(logMsg)
 }
 
+// 自动发群消息功能
+async function sayGroup() {
+  var options = {
+		hostname: 'v.juhe.cn',
+		port: 80,
+		path: '/toutiao/index',
+		method: 'POST',
+		headers: {
+		'Content-Type': 'application/x-www-form-urlencoded'
+		}
+	 };
+	 
+	var request = http.request(options, function (res) {  
+    console.log('STATUS: ' + res.statusCode);  
+    console.log('HEADERS: ' + JSON.stringify(res.headers));  
+    res.setEncoding('utf8');  
+		let rawData = '';
+		res.on('data', (chunk) => { rawData += chunk; });	 
+		res.on('end',async () => {
+			try {
+				const parsedData = JSON.parse(rawData);
+				// console.log(parsedData.result.data);
+				let newsList=parsedData.result.data.map((item)=>{
+					return{
+						title:item.title,
+						url:item.url
+					}
+				})
+				let newsStr="";
+				let  contact = await bot.Contact.find({name:config.NICKNAME}) || await bot.Contact.find({alias:config.NAME}) // 获取你要发送的联系人
+				for(let i=0;i<newsList.length;i++){
+					newsStr+="标题"+newsList[i].title+"<br/>"+"内容"+newsList[i].url+"<br/>"
+				}
+				await contact.say(newsStr)
+			} catch (e) {
+				console.error(e.message);
+			}
+		});
+	});  
+  request.on('error', function (e) {  
+			console.log('problem with request: ' + e.message);  
+	});  
+	 request.write(qs.stringify({
+		 key:"b181234c8dd488866e6cc05b308b12b3",
+		 type:""
+	 }));
+	 request.end();
+}
+// 自动发消息功能
+async function sayMain({NICKNAME="",NAME="",MEMORIAL_DAY="",MSG=""}={}) {
+  let logMsg
+  let  contact = await bot.Contact.find({name:NICKNAME}) || await bot.Contact.find({alias:NAME}) // 获取你要发送的联系人
+  let one = await superagent.getOne() //获取每日一句
+  let weather = await superagent.getWeather() //获取天气信息
+  let today = await untils.formatDate(new Date())//获取今天的日期
+  let memorialDay = untils.getDay(MEMORIAL_DAY)//获取纪念日天数
+  let str = today + '<br>' + '第' + memorialDay + '天提醒你'
+	  + '<br><br>今日天气早知道<br>' + weather.weatherTips +'<br>' +weather.todayWeather+ '<br>每日一句:<br>'+MSG===''?one:MSG+'<br><br>';
+  try{
+    logMsg = str
+	await contact.say(str) // 发送消息
+  }catch (e) {
+	logMsg = e.message
+  }
+  console.log(logMsg)
+}
+//自动发消息
+async function sayFn(){
+	config.SAYLIST.forEach((item,index)=>{
+		schedule.setSchedule(config.SAYLIST[index].SENDDATE,()=>{
+			console.log(`你的贴心小助理对${config.SAYLIST[index].NICKNAME}开始工作啦！`)
+				if(config.SAYLIST[index].ISGROUP===undefined||config.SAYLIST[index].ISGROUP===false){
+					sayMain({
+						NICKNAME:config.SAYLIST[index].NICKNAME,
+						NAME:config.SAYLIST[index].NAME,
+						MEMORIAL_DAY:config.SAYLIST[index].MEMORIAL_DAY,
+						MSG:config.SAYLIST[index].MSG
+					})
+				}else{
+					sayGroup()
+				}
+			})
+	})
+}
 const bot = new Wechaty({name:'WechatEveryDay'})
 
 bot.on('scan',    onScan)

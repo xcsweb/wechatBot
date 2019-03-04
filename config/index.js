@@ -6,10 +6,33 @@ module.exports ={
   MOJI_HOST:'https://tianqi.moji.com/weather/china/', //中国墨迹天气url
   CITY:'chongqing',//收信者所在城市
   LOCATION:'chongqing',//收信者所在区 （可以访问墨迹天气网站后，查询区的英文拼写）
-  MEMORIAL_DAY:'2018/01/18', //你和收信者的纪念日
-  NAME:'Joy(余真真)',//备注姓名
-  NICKNAME:'JOY������', //昵称
-  SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+  SAYLIST:[
+    {
+      MEMORIAL_DAY:'2018/01/18', //你和收信者的纪念日
+      NAME:'Joy(余真真)',//备注姓名
+      NICKNAME:'JOY������', //昵称
+      SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+    },
+    {
+      MEMORIAL_DAY:'1995/10/07', //你和收信者的纪念日
+      NAME:'妈妈',//备注姓名
+      NICKNAME:'为了理想', //昵称
+      SENDDATE:'00 30 7 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js,
+      MSG:"今天要去锻炼(来自自动消息,请勿回复)"
+    },
+    {
+      MEMORIAL_DAY:'2016/07/18', //你和收信者的纪念日
+      NAME:'汪艳玉',//备注姓名
+      NICKNAME:'WangYY', //昵称
+      SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+    },
+    // {
+    //   NAME:'校友小助手',//备注姓名
+    //   NICKNAME:'校友小助手', //昵称
+    //   ISGROUP:true,
+    //   SENDDATE:'00 45 23 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+    // },
+  ],
   ROOMNAME:'/^你的群名/i', //群名(请只修改中文，不要删除符号，这是正则)
   ADDFRIENDWORD:'/你要触发的关键词/i',//自动加好友触发的关键词(请只修改中文，不要删除符号，这是正则)
   ADDROOMWORD:'/加群/',//自动发送群图片触发关键词(请只修改中文，不要删除符号，这是正则)
