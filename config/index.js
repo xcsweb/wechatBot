@@ -26,12 +26,12 @@ module.exports ={
       NICKNAME:'WangYY', //昵称
       SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
-    // {
-    //   NAME:'校友小助手',//备注姓名
-    //   NICKNAME:'校友小助手', //昵称
-    //   ISGROUP:true,
-    //   SENDDATE:'00 45 23 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
-    // },
+    {
+      NAME:'校友小助手',//备注姓名
+      NICKNAME:'校友小助手', //昵称
+      MEMORIAL_DAY:'2018/01/18',
+      SENDDATE:'00 17 11 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+    },
   ],
   ROOMNAME:'/^你的群名/i', //群名(请只修改中文，不要删除符号，这是正则)
   ADDFRIENDWORD:'/你要触发的关键词/i',//自动加好友触发的关键词(请只修改中文，不要删除符号，这是正则)

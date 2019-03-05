@@ -129,7 +129,7 @@ async function main() {
 }
 
 // 自动发群消息功能
-async function sayGroup() {
+async function sayGroup({NICKNAME="",NAME=""}={}) {
   var options = {
 		hostname: 'v.juhe.cn',
 		port: 80,
@@ -157,7 +157,7 @@ async function sayGroup() {
 					}
 				})
 				let newsStr="";
-				let  contact = await bot.Contact.find({name:config.NICKNAME}) || await bot.Contact.find({alias:config.NAME}) // 获取你要发送的联系人
+				let  contact = await bot.Contact.find({name:NICKNAME}) || await bot.Contact.find({alias:NAME}) // 获取你要发送的联系人
 				for(let i=0;i<newsList.length;i++){
 					newsStr+="标题"+newsList[i].title+"<br/>"+"内容"+newsList[i].url+"<br/>"
 				}
@@ -185,10 +185,10 @@ async function sayMain({NICKNAME="",NAME="",MEMORIAL_DAY="",MSG=""}={}) {
   let today = await untils.formatDate(new Date())//获取今天的日期
   let memorialDay = untils.getDay(MEMORIAL_DAY)//获取纪念日天数
   let str = today + '<br>' + '第' + memorialDay + '天提醒你'
-	  + '<br><br>今日天气早知道<br>' + weather.weatherTips +'<br>' +weather.todayWeather+ '<br>每日一句:<br>'+MSG===''?one:MSG+'<br><br>';
+	  + '<br><br>今日天气早知道<br>' + weather.weatherTips +'<br>' +weather.todayWeather+ '<br>每日一句:<br>'+(MSG===''?one:MSG)+'<br><br>';
   try{
-    logMsg = str
-	await contact.say(str) // 发送消息
+		logMsg = str
+		await contact.say(str) // 发送消息
   }catch (e) {
 	logMsg = e.message
   }
@@ -196,18 +196,18 @@ async function sayMain({NICKNAME="",NAME="",MEMORIAL_DAY="",MSG=""}={}) {
 }
 //自动发消息
 async function sayFn(){
-	config.SAYLIST.forEach((item,index)=>{
-		schedule.setSchedule(config.SAYLIST[index].SENDDATE,()=>{
-			console.log(`你的贴心小助理对${config.SAYLIST[index].NICKNAME}开始工作啦！`)
-				if(config.SAYLIST[index].ISGROUP===undefined||config.SAYLIST[index].ISGROUP===false){
+	config.SAYLIST.forEach((item)=>{
+		schedule.setSchedule(item.SENDDATE,()=>{
+			console.log(`你的贴心小助理对${item.NICKNAME}开始工作啦！`)
+				if(item.ISGROUP===undefined||item.ISGROUP===false){
 					sayMain({
-						NICKNAME:config.SAYLIST[index].NICKNAME,
-						NAME:config.SAYLIST[index].NAME,
-						MEMORIAL_DAY:config.SAYLIST[index].MEMORIAL_DAY,
-						MSG:config.SAYLIST[index].MSG
+						NICKNAME:item.NICKNAME,
+						NAME:item.NAME,
+						MEMORIAL_DAY:item.MEMORIAL_DAY,
+						MSG:item.MSG===undefined?"":item.MSG
 					})
 				}else{
-					sayGroup()
+					sayGroup({NICKNAME:item.NICKNAME,NAME:item.NAME})
 				}
 			})
 	})
