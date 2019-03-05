@@ -71,6 +71,18 @@ async function onMessage (msg) {
 	}
   }
 }
+//发群消息
+async function sayGroupRoom({ROOMNAME="",CONTENT=""}={}){
+	let roomReg = eval(ROOMNAME)
+	let keyRoom = await bot.Room.find({topic: roomReg})
+	if(keyRoom){
+		try{
+		await keyRoom.say(CONTENT)
+		}catch (e) {
+		console.error(e)
+		}
+	}
+}
 // 自动加好友功能
 async function onFriendShip(friendship) {
   let logMsg
@@ -129,7 +141,7 @@ async function main() {
 }
 
 // 自动发群消息功能
-async function sayGroup({NICKNAME="",NAME=""}={}) {
+async function sayGroup({ROOMNAME=""}={}) {
   var options = {
 		hostname: 'v.juhe.cn',
 		port: 80,
@@ -139,7 +151,6 @@ async function sayGroup({NICKNAME="",NAME=""}={}) {
 		'Content-Type': 'application/x-www-form-urlencoded'
 		}
 	 };
-	 
 	var request = http.request(options, function (res) {  
     console.log('STATUS: ' + res.statusCode);  
     console.log('HEADERS: ' + JSON.stringify(res.headers));  
@@ -157,11 +168,10 @@ async function sayGroup({NICKNAME="",NAME=""}={}) {
 					}
 				})
 				let newsStr="";
-				let  contact = await bot.Contact.find({name:NICKNAME}) || await bot.Contact.find({alias:NAME}) // 获取你要发送的联系人
-				for(let i=0;i<newsList.length;i++){
-					newsStr+="标题"+newsList[i].title+"<br/>"+"内容"+newsList[i].url+"<br/>"
+				for(let i=0;i<10;i++){
+					newsStr+="标题"+newsList[i].title+"<br>"+"链接"+newsList[i].url+"<br>"
 				}
-				await contact.say(newsStr)
+				await sayGroupRoom({ROOMNAME:ROOMNAME,CONTENT:newsStr})
 			} catch (e) {
 				console.error(e.message);
 			}
@@ -207,7 +217,7 @@ async function sayFn(){
 						MSG:item.MSG===undefined?"":item.MSG
 					})
 				}else{
-					sayGroup({NICKNAME:item.NICKNAME,NAME:item.NAME})
+					sayGroup({ROOMNAME:item.ROOMNAME})
 				}
 			})
 	})
