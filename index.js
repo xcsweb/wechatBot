@@ -182,12 +182,12 @@ async function sayGroup({ROOMNAME=""}={}) {
 	});  
 	 request.write(qs.stringify({
 		 key:"b181234c8dd488866e6cc05b308b12b3",
-		 type:""
+		 type:"caijing"
 	 }));
 	 request.end();
 }
 // 自动发消息功能
-async function sayMain({NICKNAME="",NAME="",MEMORIAL_DAY="",MSG=""}={}) {
+async function sayMain({NICKNAME="",NAME="",MEMORIAL_DAY="",MSG="",BIRTHDAY=""}={}) {
   let logMsg
   let  contact = await bot.Contact.find({name:NICKNAME}) || await bot.Contact.find({alias:NAME}) // 获取你要发送的联系人
   let one = await superagent.getOne() //获取每日一句
@@ -195,10 +195,18 @@ async function sayMain({NICKNAME="",NAME="",MEMORIAL_DAY="",MSG=""}={}) {
   let today = await untils.formatDate(new Date())//获取今天的日期
   let memorialDay = untils.getDay(MEMORIAL_DAY)//获取纪念日天数
   let str = today + '<br>' + '第' + memorialDay + '天提醒你'
-	  + '<br><br>今日天气早知道<br>' + weather.weatherTips +'<br>' +weather.todayWeather+ '<br>每日一句:<br>'+(MSG===''?one:MSG)+'<br><br>';
+		+ '<br><br>今日天气早知道<br>' + weather.weatherTips +'<br>' +weather.todayWeather+ '<br>每日一句:<br>'+(MSG===''?one:MSG)+'<br><br>';
+		
+	if(BIRTHDAY!==""&&BIRTHDAY===untils.dateFormat("yyyy/MM/dd",new Date())){
+		str+="祝你生日快乐!";
+	}
   try{
 		logMsg = str
 		await contact.say(str) // 发送消息
+		if(BIRTHDAY!==""&&BIRTHDAY===untils.dateFormat("yyyy/MM/dd",new Date())){
+			const BIRTHDAYPARH = FileBox.fromFile(config.BIRTHDAYPARH) //添加本地文件
+			await contact.say(BIRTHDAYPARH)
+		}
   }catch (e) {
 	logMsg = e.message
   }
@@ -214,7 +222,8 @@ async function sayFn(){
 						NICKNAME:item.NICKNAME,
 						NAME:item.NAME,
 						MEMORIAL_DAY:item.MEMORIAL_DAY,
-						MSG:item.MSG===undefined?"":item.MSG
+						MSG:item.MSG===undefined?"":item.MSG,
+						BIRTHDAY:item.BIRTHDAY
 					})
 				}else{
 					sayGroup({ROOMNAME:item.ROOMNAME})

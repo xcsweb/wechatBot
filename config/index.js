@@ -12,6 +12,7 @@ module.exports ={
       NAME:'Joy(余真真)',//备注姓名
       NICKNAME:'JOY������', //昵称
       SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      BIRTHDAY:"2019/03/19"
     },
     {
       MEMORIAL_DAY:'1995/10/07', //你和收信者的纪念日
@@ -31,10 +32,18 @@ module.exports ={
       ISGROUP:true,
       SENDDATE:'00 03 16 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
+    {
+      MEMORIAL_DAY:'2016/07/18', //你和收信者的纪念日
+      NAME:'校友小助手',//备注姓名
+      NICKNAME:'校友小助手', //昵称
+      SENDDATE:'00 50 20 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      BIRTHDAY:"2019/03/05"
+    }
   ],
   ROOMNAME:'/^你的群名/i', //群名(请只修改中文，不要删除符号，这是正则)
   ADDFRIENDWORD:'/你要触发的关键词/i',//自动加好友触发的关键词(请只修改中文，不要删除符号，这是正则)
   ADDROOMWORD:'/加群/',//自动发送群图片触发关键词(请只修改中文，不要删除符号，这是正则)
   ROOMCODEURL:'http://image.bloggeng.com/qun.png',//群二维码url链接(与本地群二维码路径选填一个)
   ROOMLOCALPATH:'./static/qun.png',//本地群二维码图片路径（与群url选填一个）
+  BIRTHDAYPARH:"./static/birthDay.jpg"//生日
 }
