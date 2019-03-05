@@ -28,16 +28,14 @@ module.exports ={
       SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
     {
-      ROOMNAME:'/^微信每日说/i',//群名
+      ROOMNAME:'/^谭氏大家族/i',//群名
       ISGROUP:true,
-      SENDDATE:'00 03 16 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      SENDDATE:'00 30 07 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
     {
-      MEMORIAL_DAY:'2016/07/18', //你和收信者的纪念日
-      NAME:'校友小助手',//备注姓名
-      NICKNAME:'校友小助手', //昵称
-      SENDDATE:'00 50 20 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
-      BIRTHDAY:"2019/03/05"
+      ROOMNAME:'/^徐氏一家亲/i',//群名
+      ISGROUP:true,
+      SENDDATE:'00 30 07 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     }
   ],
   ROOMNAME:'/^你的群名/i', //群名(请只修改中文，不要删除符号，这是正则)
