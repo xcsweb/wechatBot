@@ -24,12 +24,12 @@ module.exports ={
     {
       ROOMNAME:'/^谭氏大家族/i',//群名
       ISGROUP:true,
-      SENDDATE:'00 15 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      SENDDATE:'00 16 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
     {
       ROOMNAME:'/^徐氏一家亲/i',//群名
       ISGROUP:true,
-      SENDDATE:'00 15 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      SENDDATE:'00 16 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     }
   ],
   ROOMNAME:'/^你的群名/i', //群名(请只修改中文，不要删除符号，这是正则)

@@ -169,7 +169,7 @@ async function sayGroup({ROOMNAME=""}={}) {
 				})
 				let newsStr="";
 				for(let i=0;i<10;i++){
-					newsStr+="标题"+newsList[i].title+"<br>"+"链接"+newsList[i].url+"<br>"
+					newsStr+="标题 "+newsList[i].title+"<br>"+"链接 "+newsList[i].url+"<br>"
 				}
 				await sayGroupRoom({ROOMNAME:ROOMNAME,CONTENT:newsStr})
 			} catch (e) {
