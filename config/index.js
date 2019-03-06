@@ -18,24 +18,18 @@ module.exports ={
       MEMORIAL_DAY:'1995/10/07', //你和收信者的纪念日
       NAME:'妈妈',//备注姓名
       NICKNAME:'为了理想', //昵称
-      SENDDATE:'00 30 7 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js,
+      SENDDATE:'00 30 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js,
       MSG:"今天要去锻炼(来自自动消息,请勿回复)"
-    },
-    {
-      MEMORIAL_DAY:'2016/07/18', //你和收信者的纪念日
-      NAME:'汪艳玉',//备注姓名
-      NICKNAME:'WangYY', //昵称
-      SENDDATE:'00 00 9 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
     {
       ROOMNAME:'/^谭氏大家族/i',//群名
       ISGROUP:true,
-      SENDDATE:'00 30 07 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      SENDDATE:'00 15 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     },
     {
       ROOMNAME:'/^徐氏一家亲/i',//群名
       ISGROUP:true,
-      SENDDATE:'00 30 07 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
+      SENDDATE:'00 15 8 * * *',//定时发送时间 每天8点15分30秒发送，规则见 /schedule/index.js
     }
   ],
   ROOMNAME:'/^你的群名/i', //群名(请只修改中文，不要删除符号，这是正则)
