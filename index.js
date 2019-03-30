@@ -10,6 +10,7 @@ const superagent = require('./superagent/index')
 const {FileBox} = require('file-box') //文件读取模块
 const http=require("http");
 var qs = require('querystring');
+const {req}=require("./request/req");
 // sayGroup()
 //  二维码生成
 function onScan (qrcode, status) {
@@ -51,24 +52,31 @@ async function onMessage (msg) {
     console.log(`群名: ${topic} 发消息人: ${contact.name()} 内容: ${content}`)
   }else { // 如果非群消息
 	console.log(`发消息人: ${contact.name()} 消息内容: ${content}`)
-	if(config.AUTOADDROOM){ //判断是否开启自动加群功能
-	  let addRoomReg = eval(config.ADDROOMWORD)
-	  let roomReg = eval(config.ROOMNAME)
-	  if(addRoomReg.test(content)&&!room){
-		let keyRoom = await this.Room.find({topic: roomReg})
-		if(keyRoom){
-		  try{
-			await contact.say(roomCodeLocal||roomCodeUrl)
-			await keyRoom.say('微信每日说：欢迎新朋友', contact)
-		  }catch (e) {
-			console.error(e)
-		  }
+		if(config.AUTOADDROOM){ //判断是否开启自动加群功能
+			let addRoomReg = eval(config.ADDROOMWORD)
+			let roomReg = eval(config.ROOMNAME)
+			if(addRoomReg.test(content)&&!room){
+			let keyRoom = await this.Room.find({topic: roomReg})
+			if(keyRoom){
+				try{
+				await contact.say(roomCodeLocal||roomCodeUrl)
+				await keyRoom.say('微信每日说：欢迎新朋友', contact)
+				}catch (e) {
+				console.error(e)
+				}
+			}
+			}else {
+			await contact.say('你好，不要轻易调戏我，我只会发群二维码，不会聊天的！')
+			await contact.say('请回复暗号：加群  获取群二维码图片')
+			}
 		}
-	  }else {
-		await contact.say('你好，不要轻易调戏我，我只会发群二维码，不会聊天的！')
-		await contact.say('请回复暗号：加群  获取群二维码图片')
-	  }
-	}
+		let reply = await superagent.getReply(content)
+			console.log('图灵机器人回复：',reply)
+		try{
+		await contact.say(reply)
+		}catch (e) {
+			console.error(e)
+		}
   }
 }
 //发群消息
@@ -231,6 +239,7 @@ async function sayFn(){
 			})
 	})
 }
+
 const bot = new Wechaty({name:'WechatEveryDay'})
 
 bot.on('scan',    onScan)
@@ -242,3 +251,6 @@ bot.on('friendship', onFriendShip)
 bot.start()
 	.then(() => console.log('开始登陆微信'))
 	.catch(e => console.error(e))
+// req({hostname:"timor.tech",path:"/api/holiday/info/2019-01-01"}).then((res)=>{
+// 	console.log(res)
+// })

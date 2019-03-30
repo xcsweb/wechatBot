@@ -37,5 +37,7 @@ module.exports ={
   ADDROOMWORD:'/加群/',//自动发送群图片触发关键词(请只修改中文，不要删除符号，这是正则)
   ROOMCODEURL:'http://image.bloggeng.com/qun.png',//群二维码url链接(与本地群二维码路径选填一个)
   ROOMLOCALPATH:'./static/qun.png',//本地群二维码图片路径（与群url选填一个）
-  BIRTHDAYPARH:"./static/birthDay.jpg"//生日
+  BIRTHDAYPARH:"./static/birthDay.jpg",//生日
+  AIBOTAPI:'http://www.tuling123.com/openapi/api',
+  APIKEY:"a221962597c14095a6b0909dcacfca09"
 }
